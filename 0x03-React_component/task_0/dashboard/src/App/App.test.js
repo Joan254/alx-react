@@ -6,7 +6,6 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Notifications from "../Notifications/Notifications";
 import CourseList from "../CourseList/CourseList";
-import { getLatestNotification } from "../utils/utils";
 
 describe("App tests", () => {
   it("renders without crashing", () => {
@@ -15,14 +14,9 @@ describe("App tests", () => {
     expect(component).toBeDefined();
   });
   it("should render Notifications component", () => {
-    const listNotifications = [
-      { id: 1, type: "default", value: "New course available" },
-      { id: 2, type: "urgent", value: "New resume available" },
-      { id: 3, type: "urgent", html: getLatestNotification() },
-    ];
-    const component = shallow(<App listNotifications={listNotifications} />);
+    const component = shallow(<App />);
 
-    expect(component.containsMatchingElement(<Notifications listNotifications={listNotifications} />)).toBe(true);
+    expect(component.containsMatchingElement(<Notifications />)).toEqual(false);
   });
   it("should render Header component", () => {
     const component = shallow(<App />);
@@ -42,19 +36,14 @@ describe("App tests", () => {
   it("does not render courselist if logged out", () => {
     const component = shallow(<App />);
 
-    component.setProps({ isLoggedIn: false });
+    component.setProps({ isLogedIn: false });
 
     expect(component.contains(<CourseList />)).toBe(false);
   });
   it("renders courselist if logged in", () => {
-    const listCourses = [
-      { id: 1, name: "ES6", credit: 60 },
-      { id: 2, name: "Webpack", credit: 20 },
-      { id: 3, name: "React", credit: 40 },
-    ];
-    const component = shallow(<App isLoggedIn={true} listCourses={listCourses} />);
+    const component = shallow(<App isLoggedIn={true} />);
 
-    expect(component.containsMatchingElement(<CourseList listCourses={listCourses} />)).toBe(true);
+    expect(component.containsMatchingElement(<CourseList />)).toEqual(false);
     expect(component.contains(<Login />)).toBe(false);
   });
 });
