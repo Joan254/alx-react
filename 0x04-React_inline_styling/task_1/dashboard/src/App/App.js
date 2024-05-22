@@ -66,7 +66,7 @@ class App extends React.Component {
               iste vero dolor voluptates.
             </p>
           </BodySection>
-          <Footer />
+          <Footer className={css(styles['App-footer'])} />
         </div>
       </React.Fragment>
     );
@@ -79,6 +79,13 @@ const styles = StyleSheet.create({
     maxWidth: "100vw",
     position: "relative",
     fontFamily: "Arial, Helvetica, sans-serif",
+  },
+
+  'App-footer': {
+    fontSize: "1rem",
+    padding: "1.2rem",
+    textAlign: "center",
+    fontStyle: "italic",
   },
 });
 
