@@ -1,19 +1,32 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 module.exports = {
+  mode: "development",
+  devtool: "inline-source-map",
   entry: "./src/index.js",
   output: {
     filename: "bundle.js",
+    path: path.resolve("./dist"),
   },
-  mode: "development",
+  devServer: {
+    hot: true,
+    contentBase: path.resolve("./dist"),
+    compress: true,
+    port: 8564,
+  },
   module: {
     rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+      },
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(gif|png|jpe?g|svg)$/i,
         use: [
           "file-loader",
           {
@@ -25,33 +38,6 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ["babel-loader"],
-      },
     ],
   },
-  resolve: {
-    //extensions: ["*", ".js", ".jsx"],
-    alias: {
-			'react-dom': 'react-dom/profiling',
-			'schedule/tracing': 'schedule/tracing-profiling',
-		},
-  },
-  devServer: {
-    static: "./dist",
-    compress: true,
-    open: true,
-    hot: true,
-    port: 8564,
-  },
-  devtool: "inline-source-map",
-  plugins: [
-    new HtmlWebpackPlugin({
-      name: "index.html",
-      inject: false,
-      template: "./dist/index.html",
-    }),
-  ],
 };
